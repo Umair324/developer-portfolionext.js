@@ -61,7 +61,7 @@ export default function HeroSection() {
 </a>
                     
                  <Link href={"#contact"}>
-                <button className="border border-slate-400 active:scale-95 hover:bg-white/10 transition rounded-lg px-8 h-11">
+                <button className="border border-slate-400 active:scale-95 hover:bg-white/10 transition rounded-lg px-8 h-11 hidden md:block">
                    Get in touch
                 </button>
                 </Link>
