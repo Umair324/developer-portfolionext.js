@@ -51,7 +51,7 @@ export default function HeroSection() {
                 viewport={{ once: true }}
                 transition={{ type: "spring", stiffness: 320, damping: 70, mass: 1 }}>  
                <a
-   href="/assets/updated%20Resume.pdf"
+   href="/assets/Final%20Resume.pdf"
   target="_blank"
   rel="noopener noreferrer"
   className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 transition text-white active:scale-95 rounded-lg px-7 h-11"
