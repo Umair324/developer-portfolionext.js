@@ -2,12 +2,67 @@
 
 @theme {
     --font-poppins: "Poppins", sans-serif;
+
+    /* site-wide background animations (pure CSS, light on the browser) */
+    --animate-drift-a: drift-a 22s ease-in-out infinite;
+    --animate-drift-b: drift-b 26s ease-in-out infinite;
+    --animate-drift-c: drift-c 30s ease-in-out infinite;
+    --animate-grid-flow: grid-flow 4s linear infinite;
+    --animate-float-up: float-up 10s ease-in-out infinite;
+
+    @keyframes drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(140px, 90px) scale(1.15); }
+    }
+    @keyframes drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-120px, 70px) scale(1.1); }
+    }
+    @keyframes drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(90px, -100px) scale(1.2); }
+    }
+    @keyframes grid-flow {
+        from { background-position: 0 0; }
+        to { background-position: 0 -34px; }
+    }
+    @keyframes float-up {
+        0%, 100% { transform: translateY(0); opacity: 0.1; }
+        50% { transform: translateY(-50px); opacity: 0.8; }
+    }
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    @apply bg-black text-white text-sm font-poppins antialiased;
+    @apply bg-black text-white text-sm font-poppins antialiased overflow-x-hidden;
 }
 
 button {
     @apply cursor-pointer;
+}
+
+/* navbar is fixed, so anchored sections should stop below it */
+section[id] {
+    scroll-margin-top: 6rem;
+}
+
+::selection {
+    background: rgba(99, 102, 241, 0.45);
+    color: #fff;
+}
+
+/* slim indigo scrollbar to match the theme */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #05050f; }
+::-webkit-scrollbar-thumb { background: linear-gradient(#4f46e5, #312e81); border-radius: 9999px; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
 }

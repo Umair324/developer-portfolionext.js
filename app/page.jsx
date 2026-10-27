@@ -11,7 +11,7 @@ import TrustedCompanies from "@/sections/trusted-companies";
 
 export default function Page() {
     return (
-        <main className="px-6 md:px-16 lg:px-24 xl:px-32">
+        <main >
             <HeroSection />
             <AboutOurApps />
             <OurLatestCreation />

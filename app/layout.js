@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import LenisScroll from "@/components/lenis-scroll";
 import Footer from "@/components/footer";
+import SiteBackground from "@/components/SiteBackground";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -23,7 +24,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <body>
-                <LenisScroll />
+                 <SiteBackground />
                 <Navbar />
                 {children}
                 <Footer />
