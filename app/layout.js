@@ -7,24 +7,25 @@ import SiteBackground from "@/components/SiteBackground";
 
 const poppins = Poppins({
     subsets: ["latin"],
-    variable: "--font-poppins",
+    variable: "--font-poppins-next",
     weight: ["400", "500", "600", "700"],
     display: "swap",
 });
 
 export const metadata = {
-    title: "Porfolio",
+    title: "Portfolio",
     description: "Developer's Portfolio",
-   icons: {
-        icon: "/icon.png", // This points to your new icon
+    icons: {
+        icon: "/icon.png",
     },
 };
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en">
+        <html lang="en" className={poppins.variable}>
             <body>
-                 <SiteBackground />
+                <SiteBackground />
+                <LenisScroll />
                 <Navbar />
                 {children}
                 <Footer />

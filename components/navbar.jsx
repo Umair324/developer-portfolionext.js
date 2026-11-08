@@ -62,23 +62,23 @@ export default function Navbar() {
 
     return (
         <>
-            <motion.header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4"
+            <motion.header className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4 sm:pt-4"
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: hidden ? -120 : 0, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 220, damping: 28 }}>
-                <nav className={`relative flex w-full max-w-6xl items-center justify-between rounded-full border px-3 py-2 backdrop-blur-xl transition-all duration-500 md:px-4 ${
+                <nav className={`relative flex w-full min-w-0 max-w-6xl items-center justify-between gap-2 rounded-full border px-2.5 py-2 backdrop-blur-xl transition-all duration-500 md:px-4 ${
                     scrolled
                         ? "border-indigo-500/30 bg-black/70 shadow-[0_10px_40px_rgba(79,70,229,0.28)]"
                         : "border-white/10 bg-white/5"
                 }`}>
 
                     {/* logo */}
-                    <Link href="/" className="group flex items-center gap-2 pl-1">
-                        <span className="relative">
+                    <Link href="/" className="group flex min-w-0 items-center gap-2 pl-1">
+                        <span className="relative shrink-0">
                             <span aria-hidden="true" className="absolute inset-0 rounded-full bg-indigo-500/40 blur-lg transition-opacity group-hover:opacity-100 md:opacity-0" />
-                            <Image src={img} alt="Umair Logo" width={40} className="relative object-contain transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110" />
+                            <Image src={img} alt="Umair Logo" width={40} className="relative h-9 w-auto object-contain transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110 sm:h-10" />
                         </span>
-                        <span className="bg-gradient-to-r from-white to-indigo-300 bg-clip-text text-lg font-semibold leading-none tracking-tight text-transparent">
+                        <span className="truncate bg-gradient-to-r from-white to-indigo-300 bg-clip-text text-lg font-semibold leading-none tracking-tight text-transparent">
                             Umair
                         </span>
                     </Link>
@@ -117,7 +117,7 @@ export default function Navbar() {
 
                     {/* mobile toggle */}
                     <button onClick={() => setIsMenuOpen(true)} aria-label="Open menu"
-                        className="grid size-10 place-items-center rounded-full border border-white/10 bg-white/5 transition active:scale-90 lg:hidden">
+                        className="grid size-10 shrink-0 place-items-center rounded-full border border-white/10 bg-white/5 transition active:scale-90 lg:hidden">
                         <MenuIcon className="size-5" />
                     </button>
 
@@ -130,9 +130,9 @@ export default function Navbar() {
             {/* mobile menu */}
             <AnimatePresence>
                 {isMenuOpen && (
-                    <motion.div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 overflow-hidden bg-black/90 backdrop-blur-xl lg:hidden"
+                    <motion.div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-5 overflow-y-auto overflow-x-hidden bg-black/90 px-4 py-10 backdrop-blur-xl sm:gap-6 lg:hidden"
                         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-                        <motion.div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/3 size-80 -translate-x-1/2 rounded-full bg-indigo-600/30 blur-3xl"
+                        <motion.div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/3 size-72 -translate-x-1/2 rounded-full bg-indigo-600/30 blur-3xl sm:size-80"
                             animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 6, repeat: Infinity }} />
 
                         {navlinks.map((link, i) => (
@@ -140,10 +140,9 @@ export default function Navbar() {
                                 initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 20, opacity: 0 }}
                                 transition={{ delay: 0.08 * i + 0.1, type: "spring", stiffness: 200, damping: 20 }}>
                                 <Link href={link.href} onClick={() => setIsMenuOpen(false)}
-                                    className={`relative flex items-baseline gap-3 text-3xl font-semibold transition-colors ${
+                                    className={`relative block text-2xl font-semibold transition-colors sm:text-3xl ${
                                         active === link.id ? "text-white" : "text-slate-400 hover:text-white"
                                     }`}>
-                                    <span className="font-mono text-xs text-indigo-400">0{i + 1}</span>
                                     {link.text}
                                 </Link>
                             </motion.div>
@@ -160,7 +159,7 @@ export default function Navbar() {
                         <motion.button onClick={() => setIsMenuOpen(false)} aria-label="Close menu"
                             initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0 }}
                             transition={{ delay: 0.5, type: "spring" }}
-                            className="mt-6 grid size-12 place-items-center rounded-full border border-indigo-400/40 bg-indigo-500/20 text-white transition active:scale-90">
+                            className="mt-4 grid size-12 shrink-0 place-items-center rounded-full border border-indigo-400/40 bg-indigo-500/20 text-white transition active:scale-90">
                             <XIcon className="size-5" />
                         </motion.button>
                     </motion.div>

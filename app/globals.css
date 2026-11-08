@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
-@theme {
-    --font-poppins: "Poppins", sans-serif;
+/* next/font ka variable (--font-poppins-next) yahan Tailwind ki font-poppins class se jur raha hai */
+@theme inline {
+    --font-poppins: var(--font-poppins-next), ui-sans-serif, system-ui, sans-serif;
+}
 
+@theme {
     /* site-wide background animations (pure CSS, light on the browser) */
     --animate-drift-a: drift-a 22s ease-in-out infinite;
     --animate-drift-b: drift-b 26s ease-in-out infinite;
@@ -36,8 +39,15 @@ html {
     scroll-behavior: smooth;
 }
 
+/* side scroll / zoom-out on mobile rokne ke liye html aur body dono par clip */
+html,
 body {
-    @apply bg-black text-white text-sm font-poppins antialiased overflow-x-hidden;
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+body {
+    @apply bg-black text-white text-sm font-poppins antialiased;
 }
 
 button {

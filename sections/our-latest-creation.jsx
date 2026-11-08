@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import SectionHeading from "@/components/section-heading";
 
@@ -208,9 +208,54 @@ function Card({ c, reduce }) {
 export default function OurLatestCreation() {
     const reduce = useReducedMotion();
     const desktop = useDesktop();
+    const scrollerRef = useRef(null);
+    const pausedRef = useRef(false);
+    const resumeTimer = useRef(null);
+
+    /* mobile auto-slider: har 3 sec mein next card center par aata hai */
+    useEffect(() => {
+        if (desktop || reduce) return;
+        const el = scrollerRef.current;
+        if (!el) return;
+
+        const id = setInterval(() => {
+            if (pausedRef.current) return;
+            const cards = Array.from(el.children);
+            if (!cards.length) return;
+            const center = el.scrollLeft + el.clientWidth / 2;
+
+            // abhi center ke sabse kareeb kaunsa card hai
+            let current = 0;
+            let best = Infinity;
+            cards.forEach((c, i) => {
+                const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
+                if (d < best) { best = d; current = i; }
+            });
+
+            const next = cards[(current + 1) % cards.length];
+            el.scrollTo({
+                left: next.offsetLeft - (el.clientWidth - next.offsetWidth) / 2,
+                behavior: "smooth",
+            });
+        }, 3000);
+
+        return () => clearInterval(id);
+    }, [desktop, reduce]);
+
+    // cleanup resume timer on unmount
+    useEffect(() => () => clearTimeout(resumeTimer.current), []);
+
+    const pause = () => {
+        pausedRef.current = true;
+        clearTimeout(resumeTimer.current);
+    };
+    const resume = () => {
+        clearTimeout(resumeTimer.current);
+        resumeTimer.current = setTimeout(() => { pausedRef.current = false; }, 2500);
+    };
 
     return (
-        <section className="flex justify-center mt-28 px-4" id="creations">
+        <section className="flex justify-center mt-28 px-4 overflow-x-clip" id="creations">
             <div className="relative w-full max-w-7xl text-white px-5 md:px-6 pb-12">
 
                 {/* shared heading (same style as every other section) */}
@@ -220,18 +265,28 @@ export default function OurLatestCreation() {
                 />
 
                 {/* cards */}
-                <div className="relative z-10 mt-10 flex gap-4 overflow-x-auto snap-x snap-mandatory pb-6 md:block md:overflow-visible md:pb-0 md:h-[500px]">
+                <div
+                    ref={scrollerRef}
+                    onTouchStart={pause}
+                    onTouchEnd={resume}
+                    onMouseEnter={pause}
+                    onMouseLeave={resume}
+                    className="relative z-10 mt-10 -mx-5 flex gap-4 overflow-x-auto overflow-y-hidden snap-x snap-mandatory
+                               px-[calc(50%-8rem)] py-6 scroll-smooth
+                               [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
+                               md:mx-0 md:block md:overflow-visible md:px-0 md:py-0 md:h-[500px]">
                     {sectionData.map((c, i) => (
                         <motion.div key={c.title}
                             className="shrink-0 snap-center w-64 aspect-[3/4.4] md:absolute md:w-[20%] md:-translate-x-1/2 hover:z-30"
                             style={desktop ? { left: c.left, top: c.top } : undefined}
-                            initial={{ y: 200, opacity: 0, rotate: 0 }}
-                            whileInView={{ y: 0, opacity: 1, rotate: desktop ? c.rot : 0 }}
+                            initial={desktop ? { y: 200, opacity: 0, rotate: 0 } : { opacity: 0 }}
+                            whileInView={desktop ? { y: 0, opacity: 1, rotate: c.rot } : { opacity: 1 }}
                             viewport={{ once: true, amount: 0.2 }}
                             whileHover={desktop ? { y: -22, rotate: 0, scale: 1.08 } : undefined}
                             transition={{ delay: i * 0.12, type: "spring", stiffness: 110, damping: 16 }}>
                             <motion.div className="size-full overflow-hidden rounded-2xl shadow-[0_18px_40px_rgba(79,70,229,0.35)]"
-                                animate={reduce ? {} : { y: [0, -8, 0] }} transition={{ duration: 4 + i * 0.6, repeat: Infinity, ease: "easeInOut" }}>
+                                animate={reduce ? {} : { y: [0, -8, 0] }}
+                                transition={{ duration: 4 + i * 0.6, repeat: Infinity, ease: "easeInOut" }}>
                                 <Card c={c} reduce={reduce} />
                             </motion.div>
                         </motion.div>

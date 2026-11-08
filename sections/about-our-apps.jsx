@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, animate, motion, useInView, useMotionTemplate, useMotionValue, useReducedMotion } from "framer-motion";
 import SectionHeading from "@/components/section-heading";
 
-const PHOTO = ""; // put your photo path here, e.g. "/assets/me.jpg" (leave empty to show your initials)
+
+const PHOTO = "/assets/me.png"
 const stack = ["React.js", "Next.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "Vue.js", "React Native", "JavaScript ES6", "GitHub"];
 const langs = [["English", "Conversational"], ["Urdu", "Native"], ["Sindhi", "Native"], ["Seraiki", "Advanced"]];
 
